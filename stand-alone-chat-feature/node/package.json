@@ -12,11 +12,13 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",
+    "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "cors": "^2.8.4",
     "debug": "^3.0.1",
     "express": "^4.15.4",
     "http-errors": "^1.6.2",
+    "jsonwebtoken": "^8.0.1",
     "mocha": "^3.5.3",
     "mongoose": "^4.11.12",
     "morgan": "^1.8.2",
