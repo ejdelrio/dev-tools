@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
 const debug = require('debug')(`${process.env.APP_NAME}: User Model`);
 const Schema = mongoose.Schema;
 
@@ -28,6 +29,19 @@ userSchema.methods.encryptPassWord = () => {
   });
 };
 
+userSchema.methods.comparePassWord = passWord => {
+  debug('comparePassWord method');
+
+  new Promise ((resolve, reject) => {
+    bcrypt.compare(passWord, this.passWord, (err, valid) => {
+      if(err) return reject(err);
+      if(!valid) return reject(createError(401, 'Access Denied'));
+      resolve(this);
+    });
+  });
+};
+
+
 userSchema.generateToken = () => {
   debug('generateToken method');
 
@@ -35,7 +49,7 @@ userSchema.generateToken = () => {
     let tries = 0;
 
     _generateHash.call(this);
-    
+
     function _generateHash() {
       this.hash = crypto.randomBytes(32).toString('hex');
       this.save()
@@ -46,5 +60,15 @@ userSchema.generateToken = () => {
         return _generateHash.call(this);
       });
     }
+  });
+};
+
+userSchema.methods.signToken = () => {
+  debug('signToken method');
+
+  return new Promise((resolve, reject) => {
+    this.generateToken()
+    .then(token => resolve(jwt.sign({token: token}, process.env.APP_SECRET)))
+    .catch(err => reject(err));
   });
 };
