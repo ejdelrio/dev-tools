@@ -7,5 +7,3 @@ templates.userOne = {
   passWord: 'password',
   email: 'test@email.com'
 };
-
-templates.url = 'localhost:3000/api';

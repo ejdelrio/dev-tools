@@ -1,11 +1,12 @@
 'use strict';
 
+require('dotenv').config();
+const debug = require('debug')(`${process.env.APP_NAME}: User Model`);
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const debug = require('debug')(`${process.env.APP_NAME}: User Model`);
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -15,13 +16,11 @@ const userSchema = new Schema({
   hash: {type: String, required: true}
 });
 
-const User = mongoose.model('user', userSchema);
-
-userSchema.methods.encryptPassWord = () => {
+userSchema.methods.encryptPassWord = function(passWord) {
   debug('encryptPassWord method');
 
   return new Promise((resolve, reject) => {
-    bcrypt.hash(this.passWord, 10, (err, hash) => {
+    bcrypt.hash(passWord, 10, (err, hash) => {
       if(err) reject(err);
       this.passWord = hash;
       resolve(this);
@@ -29,7 +28,7 @@ userSchema.methods.encryptPassWord = () => {
   });
 };
 
-userSchema.methods.comparePassWord = passWord => {
+userSchema.methods.comparePassWord = function(passWord) {
   debug('comparePassWord method');
 
   new Promise ((resolve, reject) => {
@@ -42,7 +41,7 @@ userSchema.methods.comparePassWord = passWord => {
 };
 
 
-userSchema.generateToken = () => {
+userSchema.methods.generateToken = function () {
   debug('generateToken method');
 
   return new Promise((resolve, reject) => {
@@ -52,10 +51,11 @@ userSchema.generateToken = () => {
 
     function _generateHash() {
       this.hash = crypto.randomBytes(32).toString('hex');
+
       this.save()
       .then(() => resolve(this.hash))
       .catch(err => {
-        if(tries > 3) return reject(err);
+        if (tries > 3) return reject(err);
         tries++;
         return _generateHash.call(this);
       });
@@ -63,12 +63,14 @@ userSchema.generateToken = () => {
   });
 };
 
-userSchema.methods.signToken = () => {
+userSchema.methods.signToken = function () {
   debug('signToken method');
 
   return new Promise((resolve, reject) => {
     this.generateToken()
-    .then(token => resolve(jwt.sign({token: token}, process.env.APP_SECRET)))
-    .catch(err => reject(err));
+    .then(hash => resolve(jwt.sign({token: hash}, process.env.APP_SECRET)))
+    .catch( err => reject(err));
   });
 };
+
+const User = module.exports = mongoose.model('user', userSchema);

@@ -3,11 +3,78 @@
 const request = require('superagent');
 const expect = require('chai').expect;
 
-const {createUser, createModel, url, clearDB} = require('hook-helper.js');
+const {userOne} = require('./test_lib/template.js');
+const {createUser, createModel, url, clearDB} = require('./test_lib/hook-helper.js');
 const User = require('../model/user.js');
 
-describe('User Route Tests', () => {
-  describe('POST /api/signup', () => {
+require('../server.js');
 
+describe('User Route Tests', () => {
+
+  // after(done => {
+  //   clearDB()
+  //   .then(() => done())
+  //   .catch(err => done(err));
+  // });
+
+  describe('POST /api/signup', () => {
+    describe('With a valid req.body', () => {
+
+      // after(done => {
+      //   clearDB()
+      //   .then(() => done())
+      //   .catch(err => done(err));
+      // });
+
+      it('Should return a valid response body containing a token', done => {
+        request.post(`${url}/signup`)
+        .send(userOne)
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
+    });
+
+    describe('With an invalid request body', () => {
+      it('It should return a 400 error status', done => {
+        request.post(`${url}/signup`)
+        .send({invalud: 'invalid'})
+        .end(err => {
+          expect(err.status).to.equal(400);
+          done();
+        });
+      });
+    });
+
+    describe('With no request body', () => {
+      it('It should return a 400 error status', done => {
+        request.post(`${url}/signup`)
+        .end(err => {
+          expect(err.status).to.equal(400);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('GET /api/login', () => {
+    // before(done => {
+    //   createUser('userOne')
+    //   .then(() => done())
+    //   .catch(err => done(err));
+    // });
+
+    it('Should return a token and a 200 status code', done => {
+      let {userName, passWord} = userOne;
+      request.get(`${url}/login`)
+      .auth(userName, passWord)
+      .end((err, res) => {
+        if(err) return done(err);
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
   });
 });
