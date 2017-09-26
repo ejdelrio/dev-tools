@@ -10,4 +10,4 @@ templates.userOne = {
 
 templates.profileOne = {
   age: 28
-}
+};

@@ -12,12 +12,14 @@ const app = express();
 
 const errorMiddleware = require('./lib/error.js');
 const userRouter = require('./router/user-router.js');
+const profileRouter = require('./router/profile-router.js');
 
 mongoose.connect(process.env.MONGODB_URI);
 
 app.use(morgan('dev'));
 app.use(cors());
 app.use(userRouter);
+app.use(profileRouter);
 app.use(errorMiddleware);
 
 app.listen(PORT, () => {

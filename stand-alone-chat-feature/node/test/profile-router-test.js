@@ -1,12 +1,12 @@
 'use strict';
 
-const chai = require('chai').expect;
+const expect = require('chai').expect;
 const request = require('superagent');
 
 
 const Profile = require('../model/profile.js');
-const templates = require('./test-lib/template.js');
-const {url, createUser, createProfile, clearDB, users, profiles, tokens} = require('./test-lib/hook-helper.js');
+const templates = require('./test_lib/template.js');
+const {url, createUser, createProfile, clearDB, users, profiles, tokens} = require('./test_lib/hook-helper.js');
 
 require('../server.js');
 
