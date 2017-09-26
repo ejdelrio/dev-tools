@@ -31,10 +31,11 @@ userSchema.methods.encryptPassWord = function(passWord) {
 userSchema.methods.comparePassWord = function(passWord) {
   debug('comparePassWord method');
 
-  new Promise ((resolve, reject) => {
+  return new Promise ((resolve, reject) => {
     bcrypt.compare(passWord, this.passWord, (err, valid) => {
       if(err) return reject(err);
       if(!valid) return reject(createError(401, 'Access Denied'));
+      console.log('__VALID__:', valid)
       resolve(this);
     });
   });

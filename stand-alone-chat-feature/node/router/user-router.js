@@ -23,7 +23,6 @@ userRouter.post('/api/signup', jsonParser, function(req, res, next) {
   newUser.encryptPassWord(passWord)
   .then(user => user.signToken())
   .then(token => {
-    console.log('__TOKEN__', token);
     res.json(token);
   })
   .catch(err => next(createError(400, err.message)));
@@ -35,13 +34,11 @@ userRouter.get('/api/login', basicAuth, function(req, res, next) {
 
   let passWord = req.auth.passWord;
   delete req.auth.passWord;
+  console.log('__REQ_AUTH__:', passWord);
 
   User.findOne(req.auth)
-  .then(user => user.attemptLogin(passWord))
-  .then(user => user.generateToken())
-  .then(token => {
-    res.cookie('Giggle-Token', token, {maxAge: 86400});
-    res.json(token);
-  })
+  .then(user => user.comparePassWord(passWord))
+  .then(user => user.signToken())
+  .then(token => res.json(token))
   .catch(err => next(createError(401, err.message)));
 });

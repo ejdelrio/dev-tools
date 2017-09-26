@@ -11,20 +11,20 @@ require('../server.js');
 
 describe('User Route Tests', () => {
 
-  // after(done => {
-  //   clearDB()
-  //   .then(() => done())
-  //   .catch(err => done(err));
-  // });
+  after(done => {
+    clearDB()
+    .then(() => done())
+    .catch(err => done(err));
+  });
 
   describe('POST /api/signup', () => {
     describe('With a valid req.body', () => {
 
-      // after(done => {
-      //   clearDB()
-      //   .then(() => done())
-      //   .catch(err => done(err));
-      // });
+      after(done => {
+        clearDB()
+        .then(() => done())
+        .catch(err => done(err));
+      });
 
       it('Should return a valid response body containing a token', done => {
         request.post(`${url}/signup`)
@@ -60,14 +60,15 @@ describe('User Route Tests', () => {
   });
 
   describe('GET /api/login', () => {
-    // before(done => {
-    //   createUser('userOne')
-    //   .then(() => done())
-    //   .catch(err => done(err));
-    // });
+    before(done => {
+      createUser('userOne')
+      .then(() => done())
+      .catch(err => done(err));
+    });
 
     it('Should return a token and a 200 status code', done => {
       let {userName, passWord} = userOne;
+      console.log(userName, passWord);
       request.get(`${url}/login`)
       .auth(userName, passWord)
       .end((err, res) => {
