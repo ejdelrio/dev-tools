@@ -1,9 +1,9 @@
 'use strict';
 
-require('dotenv').config();
 const templates = require('./template.js');
+
+const Profile = require('../../model/profile');
 const User = require('../../model/user.js');
-const debug = require('debug')(`${process.env.APP_NAME}: Hook Helper Test Module`);
 
 let helper = module.exports = {};
 
@@ -15,7 +15,7 @@ helper.models = {};
 helper.url = `http://localhost:${process.env.PORT}/api`;
 
 helper.createUser = templateName => {
-  debug('Create User');
+
   return new Promise((resolve, reject) => {
     let testUser = new User(templates[templateName]);
     testUser.encryptPassWord(testUser.passWord)
@@ -44,7 +44,11 @@ helper.createModel = (modelName, modelSchema, profileName) => {
 
 helper.createProfile = (profileName, userTemplateName) => {
   return new Promise((resolve, reject) => {
-
+    let newProfile = new Profile(templates[profileName]);
+    newProfile.userID = helper.users[userTemplateName]._id;
+    newProfile.save()
+    .then(profile => resolve(profile))
+    .catch(err => reject(err));
   });
 };
 

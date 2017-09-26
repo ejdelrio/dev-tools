@@ -7,3 +7,7 @@ templates.userOne = {
   passWord: 'password',
   email: 'test@email.com'
 };
+
+templates.profileOne = {
+  age: 28
+}
