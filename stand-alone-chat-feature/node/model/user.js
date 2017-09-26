@@ -35,7 +35,6 @@ userSchema.methods.comparePassWord = function(passWord) {
     bcrypt.compare(passWord, this.passWord, (err, valid) => {
       if(err) return reject(err);
       if(!valid) return reject(createError(401, 'Access Denied'));
-      console.log('__VALID__:', valid)
       resolve(this);
     });
   });

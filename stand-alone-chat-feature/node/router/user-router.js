@@ -34,7 +34,6 @@ userRouter.get('/api/login', basicAuth, function(req, res, next) {
 
   let passWord = req.auth.passWord;
   delete req.auth.passWord;
-  console.log('__REQ_AUTH__:', passWord);
 
   User.findOne(req.auth)
   .then(user => user.comparePassWord(passWord))

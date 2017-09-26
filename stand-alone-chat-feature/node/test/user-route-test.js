@@ -66,15 +66,39 @@ describe('User Route Tests', () => {
       .catch(err => done(err));
     });
 
-    it('Should return a token and a 200 status code', done => {
-      let {userName, passWord} = userOne;
-      console.log(userName, passWord);
-      request.get(`${url}/login`)
-      .auth(userName, passWord)
-      .end((err, res) => {
-        if(err) return done(err);
-        expect(res.status).to.equal(200);
-        done();
+    describe('With valid credentials and a valid header', () => {
+
+      it('Should return a token and a 200 status code', done => {
+        let {userName, passWord} = userOne;
+        request.get(`${url}/login`)
+        .auth(userName, passWord)
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
+    });
+
+    describe('With a valid header but invalid password', () => {
+      it('Should return a 401 status code :D', done => {
+        let {userName} = userOne;
+        request.get(`${url}/login`)
+        .auth(userName, 'bacon')
+        .end((err) => {
+          expect(err.status).to.equal(401);
+          done();
+        });
+      });
+    });
+    describe('With an invalid header', () => {
+      it('Should return a 400 status code :D', done => {
+
+        request.get(`${url}/login`)
+        .end((err) => {
+          expect(err.status).to.equal(400);
+          done();
+        });
       });
     });
   });
