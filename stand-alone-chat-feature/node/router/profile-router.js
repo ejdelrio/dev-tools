@@ -26,3 +26,16 @@ profileRouter.post('/api/profile', bearerAuth, jsonParser, function(req, res, ne
   .then(profile => res.json(profile))
   .catch(err => next(createError(400, err)));
 });
+
+profileRouter.put('/api/profile', bearerAuth, jsonParser, function(req, res, next) {
+  debug('PUT /api/profile');
+
+  Profile.findOneAndUpdate(
+    {userID: req.user._id},
+    req.body,
+    {new: true}
+  )
+  .then(profile => res.json(profile))
+  .catch(err => next(createError(400, err)));
+
+});

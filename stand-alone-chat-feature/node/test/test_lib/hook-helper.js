@@ -45,8 +45,12 @@ helper.createProfile = (profileName, userTemplateName) => {
   return new Promise((resolve, reject) => {
     let newProfile = new Profile(templates[profileName]);
     newProfile.userID = helper.users[userTemplateName]._id;
+    newProfile.userName = helper.users[userTemplateName].userName;
     newProfile.save()
-    .then(profile => resolve(profile))
+    .then(profile => {
+      helper.profiles[userTemplateName] = profile;
+      resolve(profile);
+    })
     .catch(err => reject(err));
   });
 };

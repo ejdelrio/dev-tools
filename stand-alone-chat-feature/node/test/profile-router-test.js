@@ -6,7 +6,12 @@ const request = require('superagent');
 
 const Profile = require('../model/profile.js');
 const templates = require('./test_lib/template.js');
-const {url, createUser, createProfile, clearDB, users, profiles, tokens} = require('./test_lib/hook-helper.js');
+const hook = require('./test_lib/hook-helper.js');
+const {url,
+  createUser,
+  createProfile,
+  clearDB, users,
+  profiles, tokens} = hook;
 
 require('../server.js');
 
@@ -67,6 +72,59 @@ describe('Profile Router Test', () => {
           expect(err.status).to.equal(401);
           done();
         });
+      });
+    });
+  });
+
+  describe('PUT /api/profile', () => {
+    before(done => {
+      createProfile('profileOne', 'userOne')
+      .then(() => done())
+      .catch(err => done(err));
+    });
+
+    after(done => {
+      Profile.remove({})
+      .then(() => done())
+      .catch(err => done(err));
+    });
+
+    describe('With a valid req.body and authorization', () => {
+      it('Should return a response body and a 200 status code', done => {
+        request.put(`${url}/profile`)
+        .send({age: 30})
+        .set('Authorization', `Bearer ${tokens.userOne}`)
+        .end((err, res) => {
+          if(err) return done(err);
+          expect(res.status).to.equal(200);
+          expect(res.body.age).to.equal(30);
+          expect(res.body._id.toString())
+          .to.equal(profiles.userOne._id.toString());
+          expect(res.body.userName).to.equal(users.userOne.userName);
+          done();
+        });
+      });
+    });
+  });
+  describe('With an invalid req.body and valid authorization', () => {
+    it('Should return a 400 error code', done => {
+      request.put(`${url}/profile`)
+      .send({age: 'test'})
+      .set('Authorization', `Bearer ${tokens.userOne}`)
+      .end((err) => {
+        expect(err.status).to.equal(400);
+        done();
+      });
+    });
+  });
+  describe('With an invalid req.body and valid authorization', () => {
+    it('Should return a 400 error code', done => {
+      request.put(`${url}/profile`)
+      .send({age: 30})
+      .set('Authorization', `Bearer invalid`)
+      .end((err) => {
+        expect(err.status).to.equal(401);
+        done();
       });
     });
   });
