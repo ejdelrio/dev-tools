@@ -8,7 +8,6 @@ module.exports = function(err, req, res, next) {
 
   console.error('message:', err.message);
   console.error('name:', err.name);
-  console.error(err);
 
   if(err.status) {
     res.status(err.status).send(err.name);

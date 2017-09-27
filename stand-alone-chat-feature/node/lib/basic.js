@@ -7,9 +7,9 @@ const basicAuth = module.exports = function(req, res, next) {
   debug('Basic Auth');
 
   if(!req.headers) return next(createError(400, 'Header Required'));
-  if(!req.headers.authorization) return next(createError(400, 'Aythorization header required'));
+  if(!req.headers.authorization) return next(createError(400, 'Authorization header required'));
 
-  let auth = req.headers.authorization.split(' ')[1];
+  let auth = req.headers.authorization.split('Basic ')[1];
   if(!auth) return next(createError(400, 'Username and Password required :D'));
 
   let decodedAuth = new Buffer(auth, 'base64').toString();

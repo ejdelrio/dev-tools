@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
   userID: {type: Schema.Types.ObjectId, required: true, unique: true},
-  age: {type: Number},
+  age: {type: Number, required: true},
+  userName: {type: String, unique: true, required: true},
   convos: [{type: Schema.Types.ObjectId, ref: 'convoNode'}],
 });
 

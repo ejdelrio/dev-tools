@@ -18,7 +18,7 @@ describe('Profile Router Test', () => {
   });
 
   after(done => {
-    clearDB
+    clearDB()
     .then(() => done())
     .catch(err => done(err));
   });
@@ -50,7 +50,7 @@ describe('Profile Router Test', () => {
       it('Should return a 400 err code', done => {
         request.post(`${url}/profile`)
         .set('Authorization', `Bearer ${tokens.userOne}`)
-        .send({})
+        .send({test: 'test'})
         .end(err => {
           expect(err.status).to.equal(400);
           done();
@@ -61,7 +61,7 @@ describe('Profile Router Test', () => {
     describe('With invalid authorization', () => {
       it('Should return a 401 err status', done => {
         request.post(`${url}/profile`)
-        .set('Authorizaion', 'Bearer test')
+        .set('Authorization', 'Bearer 12345678')
         .send(templates['profileOne'])
         .end(err => {
           expect(err.status).to.equal(401);

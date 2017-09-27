@@ -20,7 +20,6 @@ helper.createUser = templateName => {
     let testUser = new User(templates[templateName]);
     testUser.encryptPassWord(testUser.passWord)
     .then(user => {
-      console.log('__USER__', user);
       helper.users[templateName] = user;
       return user.signToken();
     })
@@ -55,6 +54,7 @@ helper.createProfile = (profileName, userTemplateName) => {
 helper.clearDB = () => {
   return Promise.all([
     User.remove({}),
+    Profile.remove({})
   ])
   .then(() => {
     helper.users = {};

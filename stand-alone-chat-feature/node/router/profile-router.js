@@ -13,11 +13,14 @@ const Profile = require('../model/profile.js');
 
 const profileRouter = module.exports = new Router();
 
-profileRouter.post('/api/profile', jsonParser, bearerAuth, function(req, res, next) {
+profileRouter.post('/api/profile', bearerAuth, jsonParser, function(req, res, next) {
   debug('POST /api/profile');
+
+  if(!req.body) return next(createError(400, 'Request Body Required'));
 
   const newPro = new Profile(req.body);
   newPro.userID = req.user._id;
+  newPro.userName = req.user.userName;
 
   newPro.save()
   .then(profile => res.json(profile))

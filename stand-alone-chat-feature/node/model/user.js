@@ -13,7 +13,7 @@ const userSchema = new Schema({
   userName: {type: String, required: true, unique: true},
   passWord: {type: String, required: true},
   email: {type: String, required: true, unique: true},
-  hash: {type: String, required: true}
+  hash: {type: String, required: true, unique: true}
 });
 
 userSchema.methods.encryptPassWord = function(passWord) {
