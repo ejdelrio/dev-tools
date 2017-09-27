@@ -39,3 +39,10 @@ profileRouter.put('/api/profile', bearerAuth, jsonParser, function(req, res, nex
   .catch(err => next(createError(400, err)));
 
 });
+
+profileRouter.get('/api/profile', bearerAuth, profileFetch, function(req, res, next) {
+  debug('GET /api/profile');
+
+  res.json(req.profile);
+  next();
+});
