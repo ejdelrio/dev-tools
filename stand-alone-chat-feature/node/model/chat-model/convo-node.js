@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const convoNodeSchema = new Schema({
   convoID: {type: Schema.Types.ObjectId, ref: 'convoHub', required: true},
   messages: [{type: Schema.Types.ObjectId, ref: 'message'}],
-  unread: {type: Number, default: 0},
+  unread: {type: Number, default: 1},
   profileID: {type: Schema.Types.ObjectId, ref: 'profile', required: true}
 });
 

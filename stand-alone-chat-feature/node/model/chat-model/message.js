@@ -9,7 +9,8 @@ const messageSchema = new Schema({
   author: {type: String, required: true},
   content: {type: String, required: true},
   dateSend: {type: Date, default: Date.now},
-  convoID: {type: Schema.Types.ObjectId, required: true, ref: 'convoHub'}
+  convoID: {type: Schema.Types.ObjectId, required: true, ref: 'convoHub'},
+  seenBy: [{type: String}]
 });
 
 const Message = module.exports = mongoose.model('message', messageSchema);
