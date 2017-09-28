@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
   author: {type: String, required: true},
+  authorID: {type: Schema.Types.ObjectID, required: true, ref: 'profile'},
   content: {type: String, required: true},
   dateSend: {type: Date, default: Date.now},
   convoID: {type: Schema.Types.ObjectId, required: true, ref: 'convoHub'},

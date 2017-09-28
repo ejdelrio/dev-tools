@@ -6,8 +6,8 @@ const debug = require('debug')(`${process.env.APP_NAME}: Socket Convo Router`);
 const recursiveAsync = require('../lib/recursive-async.js');
 
 const ConvoHub = require('../model/chat-model/convo-hub.js');
-const ConvoNode = require('../model/chat/convo-node.js');
-const Message = require('../model/chat/message.js');
+const ConvoNode = require('../model/chat-model/convo-node.js');
+const Message = require('../model/chat-model/message.js');
 
 module.exports = (userSocket, serverSocket) => {
 

@@ -7,8 +7,8 @@ const createError = require('http-errors');
 const recursiveAsync = require('../lib/recursive-async.js');
 
 const ConvoHub = require('../model/chat-model/convo-hub.js');
-const ConvoNode = require('../model/chat/convo-node.js');
-const Message = require('../model/chat/message.js');
+const ConvoNode = require('../model/chat-model/convo-node.js');
+const Message = require('../model/chat-model/message.js');
 const Profile = require('../model/profile.js');
 
 
@@ -43,7 +43,7 @@ module.exports = (userSocket, serverSocket) => {
 
     .then(() => {
       allNodes.forEach(node => {
-        serverSocket.sockets.emit(`renderMessages-${node.profileID}`, message);
+        serverSocket.sockets.emit(`updateNodes-${node.profileID}`, message);
       });
     })
 
