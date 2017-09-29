@@ -4,7 +4,28 @@ import superagent from 'superagent';
 function renderIf(condition, component) {
   return condition ? component : null;
 }
+/*
+Designed to perform an api qeury and display the results in a dropdown
+menu style below the input. Additional styling required.
 
+The following props are required:
+  path: the API's full path
+
+  element: The name of the single model property you intend to query
+
+  onComplete: A callback tp perform when a value is clicked
+
+  modelPropertyName: A function that takes an object as an argument
+  and returns JSX with the object incorporated
+
+The following props are optional:
+
+  token: Will be passed if bearer authentication is required for the API route
+
+  placeholder: will be displayed in the input as a placeholder when empty
+
+  className: will giv the entire Component a defined className
+*/
 class APIAutofill extends React.Component {
   constructor(props) {
     super(props);
@@ -48,14 +69,16 @@ class APIAutofill extends React.Component {
 
   render() {
 
-    let {onComplete} = this.props;
+    let {onComplete, className, placeholder} = this.props;
+    if (!className) className = '';
+    if(!placeholder) placeholder = ''
 
     return(
-      <div className={this.props.className}>
+      <div className={className}>
         <input
           name='query'
           type='text'
-          placeholder={this.props.placeholder}
+          placeholder={placeholder}
           value={this.state.query}
           onChange={this.onChange}
         />
