@@ -1,6 +1,5 @@
 'use strict';
 
-require('dotenv').config();
 const mongoose = require('mongoose');
 const debug = require('debug')(`${process.env.APP_NAME}: Profile Model`);
 const Schema = mongoose.Schema;

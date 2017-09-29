@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('giggle: Error Middleware');
+const debug = require('debug')(`${process.env.APP_NAME}: Error MiddleWare`);
 const createError = require('http-errors');
 
 module.exports = function(err, req, res, next) {
@@ -9,7 +9,7 @@ module.exports = function(err, req, res, next) {
   console.error('message:', err.message);
   console.error('name:', err.name);
 
-  if(err.status) {
+  if (err.status) {
     res.status(err.status).send(err.name);
     next();
     return;

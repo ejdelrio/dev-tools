@@ -1,6 +1,5 @@
 'use strict';
 
-require('dotenv').config();
 const debug = require('debug')(`${process.env.APP_NAME}: User Model`);
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');

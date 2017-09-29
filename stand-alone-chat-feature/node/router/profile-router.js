@@ -1,6 +1,5 @@
 'use strict';
 
-require('dotenv').config();
 const Router = require('express').Router;
 const debug = require('debug')(`${process.env.APP_NAME}: Profile Router`);
 const jsonParser = require('body-parser').json();
@@ -45,4 +44,16 @@ profileRouter.get('/api/profile', bearerAuth, profileFetch, function(req, res, n
 
   res.json(req.profile);
   next();
+});
+
+profileRouter.get('/api/profile-auto/:query', function(req, res, next) {
+  debug('GET /api/profile-auto');
+  
+  let {query} = req.params;
+
+  Profile.find({userName: {'$regex': query, '$options': 'i'}})
+  .then(results => {
+    res.json(results);
+  })
+  .catch(err => createError(400, err));
 });

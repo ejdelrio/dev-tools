@@ -1,6 +1,5 @@
 'use strict';
 
-require('dotenv').config();
 const debug = require('debug')(`${process.env.APP_NAME}: Bearer Auth Middleware`);
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');

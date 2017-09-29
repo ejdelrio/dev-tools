@@ -1,0 +1,51 @@
+.chat-window-hidden, .chat-window{
+  width: 20%;
+  height: 10vh;
+  background: red;
+  position: absolute;
+  right: 0;
+  transition: 350ms all;
+
+  &>ul:first-child {
+    width: 100%;
+    height: 5vh;
+    background: pink;
+
+    li {
+      width: 33%;
+      display: inline-block;
+      height: 2.5vh;
+      background: green;
+    }
+  }
+  &>div {
+    width: 100%;
+    height: 10vh;
+
+    h3 {
+      color: black;
+      float: left;
+      height: 3vh;
+      font-size: 3vh;
+      margin-top: 3.5vh;
+    }
+  }
+  form {
+    display: none;
+  }
+
+}
+
+.chat-window {
+  position: absolute;
+  height: 100vh;
+  float: right;
+  width: 20%;
+  bottom: 0;
+  right: 0;
+  transition: 350ms all;
+
+  form {
+    display: block;
+  }
+}

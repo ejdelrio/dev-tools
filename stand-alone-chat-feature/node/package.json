@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "DEBUG='waffle*' mocha --timeout 10000",
-    "start": "DEBUG='waffle*' node server.js",
+    "test": "DEBUG='bacon*' mocha --timeout 10000",
+    "start": "DEBUG='bacon*' node server.js",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {

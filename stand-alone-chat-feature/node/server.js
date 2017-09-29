@@ -19,14 +19,16 @@ const socketRouter = require('./socket-routers/socket-router.js');
 
 mongoose.connect(process.env.MONGODB_URI);
 
-app.use(morgan('dev'));
 app.use(cors());
+app.use(morgan('dev'));
 app.use(userRouter);
 app.use(profileRouter);
 app.use(errorMiddleware);
 
 socketRouter(server);
 
-app.listen(PORT, () => {
+
+
+server.listen(PORT, () => {
   debug(`Server active on port : ${PORT}`);
 });
