@@ -1,10 +1,11 @@
 'use strict';
 
-require('dotenv').config();
 const debug = require('debug')(`${process.env.APP_NAME}: Socket Router`);
 const socketio = require('socket.io');
+
 const messageSocket = require('./message-router.js');
 const convoSocket = require('./convo-router.js');
+const autoComplete = require('./auto-complete-route.js');
 
 
 module.exports = server => {
@@ -17,6 +18,7 @@ module.exports = server => {
 
     messageSocket(socket, serverSocket);
     convoSocket(socket, serverSocket);
+    autoComplete(socket);
 
   });
 };
