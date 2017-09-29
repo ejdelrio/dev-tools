@@ -11,11 +11,11 @@ menu style below the input. Additional styling required.
 The following props are required:
   path: the API's full path
 
-  element: The name of the single model property you intend to query
+  modelPropertyName: The name of the single model property you intend to query
 
   onComplete: A callback tp perform when a value is clicked
 
-  modelPropertyName: A function that takes an object as an argument
+  element: A function that takes an object as an argument
   and returns JSX with the object incorporated
 
 The following props are optional:
