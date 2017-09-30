@@ -28,8 +28,7 @@ TriadTree.prototype.loadWord = function(word) {
 
     if (node.children[char]) {
       if (!word[ind + 1]) return node.children[char].wordEnd = true;
-      let child = node.children[char];
-      return _loadWordCharacters(child, word, ind + 1);
+      return _loadWordCharacters(node.children[char], word, ind + 1);
     }
 
     node.children[char] = new alphaNode(char);
