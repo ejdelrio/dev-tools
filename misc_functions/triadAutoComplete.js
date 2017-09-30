@@ -82,4 +82,8 @@ const alphaNode = function(char, wordEnd=false) {
   this.children = {};
 };
 
+let genreLibrary = ['acid breaks', 'acid house', 'acid rock', 'acid jazz', 'acid techno', 'acid jazz', 'acoustic', 'afrobeat', 'afro cuban jazz', 'afropop', 'alternative country', 'alternative dance', 'alternative hip hop', 'alternative metal', 'alternative metal', 'alternative rock', 'alternative r&b', 'ambient house', 'americana', 'ambient', 'ambient house', 'anarcho punk', 'ancient', 'anime', 'anti folk', 'apala', 'arabic pop', 'argentine rock', 'ars antiqua', 'ars nova', 'ars sublitor', 'art pop', 'art punk', 'art rock', 'artcore', 'ashik', 'assyrian pop', 'australian country', 'australian pub rock', 'australian hip hop', 'avante garde', 'avante garde jazz', 'avant garde metal', 'avante punk', 'bachata', 'baggy', 'baião', 'bakersfield sound', 'baila', 'baisha xiyue', 'bajourou'];
+
+let firstTree = new TriadTree();
+firstTree.loadLibrary(genreLibrary);
 module.exports = TriadTree;
