@@ -26,10 +26,8 @@ TriadTree.prototype.loadWord = function(word) {
   const _loadWordCharacters = (node, word, ind) => {
     let char = word[ind];
 
-    if (node.children[char]) {
-      if (!word[ind + 1]) return node.children[char].wordEnd = true;
-      return _loadWordCharacters(node.children[char], word, ind + 1);
-    }
+    if (!word[ind + 1] && node.children[char]) return node.children[char].wordEnd = true;
+    if (node.children[char]) return _loadWordCharacters(node.children[char], word, ind + 1);
 
     node.children[char] = new alphaNode(char);
     if (!word[ind + 1]) return node.children[char].wordEnd = true;
@@ -43,11 +41,10 @@ TriadTree.prototype.searchWords = function(word) {
   if (!word) return console.log('No Word Passed!!');
   if (word.length === 0) return console.log('Cannot Pass Emoty String');
 
-  let output = [];
   let firstNode = this.alphaHash[word[0]];
-  if (!firstNode) return output;
+  if (!firstNode) return [];
 
-  return this._recursiveWordSearch(firstNode, word, '', 0, output);
+  return this._recursiveWordSearch(firstNode, word, '', 0, []);
 };
 
 
