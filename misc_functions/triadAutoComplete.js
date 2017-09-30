@@ -45,23 +45,26 @@ TriadTree.prototype.searchWords = function(word) {
   let firstNode = this.alphaHash[word[0]];
   if (!firstNode) return output;
 
-  const _recursiveWordSearch = (node, word, buildingWord, ind) => {
-    if (node.value) buildingWord += node.value;
-    let nextChar = word[ind + 1];
-    
-    if (nextChar && node.children[nextChar]) {
-      let newNode = node.children[word[ind + 1]];
-      return _recursiveWordSearch(newNode, word, buildingWord, ind + 1);
-    }
-    if (node.wordEnd) output.push(buildingWord);
-    if (!node.children) return output;
+  return this._recursiveWordSearch(firstNode, word, '', 0, output);
+};
 
-    for (let child in node.children) {
-      _recursiveWordSearch(node.children[child], word, buildingWord, ind + 1);
-    }
-    return output;
-  };
-  return _recursiveWordSearch(firstNode, word, '', 0);
+
+TriadTree.prototype._recursiveWordSearch = function(node, word, buildingWord, ind, output) {
+  buildingWord += node.value;
+  let nextChar = word[ind + 1];
+
+  if (nextChar && node.children[nextChar]) {
+    let newNode = node.children[word[ind + 1]];
+    return this._recursiveWordSearch(newNode, word, buildingWord, ind + 1, output);
+  }
+
+  if (node.wordEnd) output.push(buildingWord);
+  if (Object.keys(node.children).length === 0) return output;
+
+  for (let child in node.children) {
+    this._recursiveWordSearch(node.children[child], word, buildingWord, ind + 1, output);
+  }
+  return output;
 };
 
 
