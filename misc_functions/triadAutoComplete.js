@@ -48,31 +48,26 @@ TriadTree.prototype.searchWords = function(word) {
   if (typeof word !== 'string') return console.log('Input must be a string');
 
   let firstNode = this.alphaHash[word[0]];
+  var output = [];
   if (!firstNode) return [];
 
-  return this._recursiveWordSearch(firstNode, word, '', 0, []);
-};
+  function _wordSearch(node, autoWord, ind) {
+    autoWord += node.value;
+    let nextChar = word[ind + 1];
+    let {children} = node;
 
+    if (nextChar && children[nextChar]) return _wordSearch(children[nextChar], autoWord, ind + 1);
 
-TriadTree.prototype._recursiveWordSearch = function(node, word, buildingWord, ind, output) {
-  /* Recursive function that traverses a tree and adds every value to an empty String
-  If the current node has a wordEnd value of true, the current version of the buildingWord
-  is pushed to the output array which is returned in the end.*/
-  buildingWord += node.value;
-  let nextChar = word[ind + 1];
+    node.wordEnd ? output.push(autoWord) : null;
+    if (Object.keys(node.children).length === 0) return output;
 
-  if (nextChar && node.children[nextChar]) {
-    let newNode = node.children[nextChar];
-    return this._recursiveWordSearch(newNode, word, buildingWord, ind + 1, output);
+    for (let child in node.children) {
+      _wordSearch(node.children[child], autoWord, ind + 1);
+    }
+    return output;
   }
 
-  node.wordEnd ? output.push(buildingWord) : null;
-  if (Object.keys(node.children).length === 0) return output;
-
-  for (let child in node.children) {
-    this._recursiveWordSearch(node.children[child], word, buildingWord, ind + 1, output);
-  }
-  return output;
+  return _wordSearch(firstNode, '', 0);
 };
 
 
