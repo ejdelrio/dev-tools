@@ -19,8 +19,8 @@ TriadTree.prototype.loadLibrary = function(library) {
 TriadTree.prototype.loadWord = function(word) {
   // Takes a word and forms a chain of nodes where the last node in the chain has a
   // wordEnd value of true.
-  if (!word) return console.log('No word passed');
-  if (typeof word !== 'string') return console.log('Input must be a string');
+  if (!word) return console.error('No word passed');
+  if (typeof word !== 'string') return console.error('Input must be a string');
   if (!this.alphaHash[word[0]]) this.alphaHash[word[0]] = new alphaNode(word[0]);
 
   const _loadWordCharacters = (node, word, ind) => {
@@ -44,30 +44,28 @@ TriadTree.prototype.loadWord = function(word) {
 
 
 TriadTree.prototype.searchWords = function(word) {
-  if (!word) return console.log('No Word Passed!!');
-  if (typeof word !== 'string') return console.log('Input must be a string');
-
-  let firstNode = this.alphaHash[word[0]];
-  var output = [];
-  if (!firstNode) return [];
+  if (!word) return console.error('No Word Passed!!');
+  if (typeof word !== 'string') return console.error('Input must be a string');
+  if (!this.alphaHash[word[0]]) return [];
+  let output = [];
 
   function _wordSearch(node, autoWord, ind) {
     autoWord += node.value;
     let nextChar = word[ind + 1];
     let {children} = node;
+    let numberOfChildren = Object.keys(children).length;
 
-    if (nextChar && children[nextChar]) return _wordSearch(children[nextChar], autoWord, ind + 1);
+    if (children[nextChar]) return _wordSearch(children[nextChar], autoWord, ind + 1);
+    if (!nextChar && node.wordEnd) output.push(autoWord);
+    if (numberOfChildren === 0) return output;
 
-    node.wordEnd ? output.push(autoWord) : null;
-    if (Object.keys(node.children).length === 0) return output;
-
-    for (let child in node.children) {
-      _wordSearch(node.children[child], autoWord, ind + 1);
+    for (let child in children) {
+      _wordSearch(children[child], autoWord, ind + 1);
     }
     return output;
   }
 
-  return _wordSearch(firstNode, '', 0);
+  return _wordSearch(this.alphaHash[word[0]], '', 0);
 };
 
 
