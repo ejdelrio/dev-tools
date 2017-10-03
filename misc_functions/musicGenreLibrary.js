@@ -698,7 +698,7 @@ module.exports = [
   'salsa international',
   'hardcore',
   'psychedelic doom',
-  'avantgarde metal',
+  'avant-garde metal',
   'baile funk',
   'riddim',
   'speed garage',

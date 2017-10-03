@@ -4,6 +4,4 @@ const musicGenreLibrary = require('./musicGenreLibrary.js');
 let genreAutoComplete = new TriadTree();
 
 genreAutoComplete.loadLibrary(musicGenreLibrary);
-console.log(genreAutoComplete.searchWords('bel'));
-
-module.exports = genreAutoComplete;
+module.exports = genreAutoComplete.searchWords;
