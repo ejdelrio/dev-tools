@@ -55,8 +55,9 @@ TriadTree.prototype.searchWords = function(word) {
     let {children} = node;
     let numberOfChildren = Object.keys(children).length;
 
+    if (nextChar && !children[nextChar]) return output;
     if (children[nextChar]) return _wordSearch(children[nextChar], autoWord, ind + 1);
-    if (!nextChar && node.wordEnd) output.push(autoWord);
+    if (node.wordEnd) output.push(autoWord);
     if (numberOfChildren === 0) return output;
 
     for (let child in children) {
