@@ -4,11 +4,11 @@
 This is the functionality for auto complete. It creates a tree where each node is the character of a word.
 A library of values must be passed into the tree to populate the nodes.
 */
-const TriadTree = function() {
+const TrieTree = function() {
   this.alphaHash = {};
 };
 
-TriadTree.prototype.loadLibrary = function(library) {
+TrieTree.prototype.loadLibrary = function(library) {
   // Takes an array of values to populate the tree
   if (!Array.isArray(library)) return console.log('Input Must be An Array');
   library.forEach(entry => {
@@ -16,7 +16,7 @@ TriadTree.prototype.loadLibrary = function(library) {
   });
 };
 
-TriadTree.prototype.loadWord = function(word) {
+TrieTree.prototype.loadWord = function(word) {
   // Takes a word and forms a chain of nodes where the last node in the chain has a
   // wordEnd value of true.
   if (!word) return console.error('No word passed');
@@ -43,7 +43,7 @@ TriadTree.prototype.loadWord = function(word) {
 };
 
 
-TriadTree.prototype.searchWords = function(word) {
+TrieTree.prototype.searchWords = function(word) {
   if (!word) return console.error('No Word Passed!!');
   if (typeof word !== 'string') return console.error('Input must be a string');
   if (!this.alphaHash[word[0]]) return [];
@@ -77,4 +77,4 @@ const alphaNode = function(char, wordEnd=false) {
 };
 
 
-module.exports = TriadTree;
+module.exports = TrieTree;
